@@ -1,6 +1,6 @@
 # API REST – Películas y Series
 
-Proyecto de **Ingeniería Web II**. API REST hecha con **Node.js + Express + Sequelize** y base de datos **SQL Server**, para administrar las películas y series de la plataforma de la Institución Universitaria Digital de Antioquia.
+Proyecto de **Ingeniería Web II**. API REST hecha con **Node.js + Express + Sequelize** y base de datos **SQL Server**, para administrar las películas y series de la plataforma.
 
 La API tiene cinco módulos: **Género, Director, Productora, Tipo y Media** (películas y series). Cada módulo permite crear, editar, consultar y eliminar.
 
@@ -16,7 +16,7 @@ La API tiene cinco módulos: **Género, Director, Productora, Tipo y Media** (pe
    npm install
    ```
 2. **Crear la base de datos**: abrir `database/script.sql` en SQL Server Management Studio y ejecutarlo completo. Crea la base `peliculas_db`, las 5 tablas y los datos iniciales (géneros: acción, aventura, ciencia ficción, drama y terror; tipos: película y serie).
-3. **Configurar la conexión**: copiar `.env.example` como `.env` y poner tu usuario y contraseña de SQL Server.
+3. **Configurar la conexión**: copiar `.env.example` como `.env` y poner mi usuario y contraseña de SQL Server.
 4. **Iniciar la API**
    ```bash
    npm start
@@ -95,8 +95,8 @@ git branch -M main
 git remote add origin https://github.com/TU_USUARIO/api-peliculas.git
 git push -u origin main
 ```
-El archivo `.env` (con tu contraseña) **no se sube** porque está en `.gitignore`.
+El archivo `.env` (con mi contraseña) **no se sube** porque está en `.gitignore`.
 
 ## Posibles problemas
-- **No conecta a SQL Server:** revisar en *SQL Server Configuration Manager* que TCP/IP esté habilitado y que el servicio esté corriendo. Si usas SQL Express con instancia con nombre, descomenta `DB_INSTANCE=SQLEXPRESS` en el `.env`.
+- **No conecta a SQL Server:** revisar en *SQL Server Configuration Manager* que TCP/IP esté habilitado y que el servicio esté corriendo. Si uso SQL Express con instancia con nombre, descomenta `DB_INSTANCE=SQLEXPRESS` en el `.env`.
 - **Login failed for user:** verificar usuario y contraseña del `.env` y que el servidor acepte autenticación mixta.
