@@ -1,0 +1,13 @@
+$kind: http-request
+url: "{{baseUrl}}/api/generos"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "nombre": "Comedia",
+      "descripcion": "Películas de humor"
+    }
+order: 2000

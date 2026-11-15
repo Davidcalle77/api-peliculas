@@ -1,0 +1,4 @@
+$kind: http-request
+url: http://localhost:3000/api/directores
+method: GET
+order: 5000

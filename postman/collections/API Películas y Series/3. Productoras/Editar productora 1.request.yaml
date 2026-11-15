@@ -1,0 +1,12 @@
+$kind: http-request
+url: "{{baseUrl}}/api/productoras/1"
+method: PUT
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "slogan": "Magia del cine"
+    }
+order: 2000

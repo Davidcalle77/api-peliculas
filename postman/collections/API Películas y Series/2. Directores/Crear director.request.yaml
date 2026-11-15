@@ -1,0 +1,12 @@
+$kind: http-request
+url: "{{baseUrl}}/api/directores"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "nombres": "Christopher Nolan"
+    }
+order: 1000

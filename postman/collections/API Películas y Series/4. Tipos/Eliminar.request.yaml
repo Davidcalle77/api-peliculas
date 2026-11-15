@@ -1,0 +1,4 @@
+$kind: http-request
+url: http://localhost:3000/api/tipos/1
+method: DELETE
+order: 4000

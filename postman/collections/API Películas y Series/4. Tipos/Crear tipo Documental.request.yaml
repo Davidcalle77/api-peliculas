@@ -1,0 +1,13 @@
+$kind: http-request
+url: "{{baseUrl}}/api/tipos"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "nombre": "Documental",
+      "descripcion": "Producciones basadas en hechos reales"
+    }
+order: 2000

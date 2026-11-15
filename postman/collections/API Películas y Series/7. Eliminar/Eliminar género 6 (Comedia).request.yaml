@@ -1,0 +1,4 @@
+$kind: http-request
+url: "{{baseUrl}}/api/generos/6"
+method: DELETE
+order: 2000

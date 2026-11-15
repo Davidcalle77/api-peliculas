@@ -1,0 +1,4 @@
+$kind: http-request
+url: http://localhost:3000/api/productoras
+method: GET
+order: 5000

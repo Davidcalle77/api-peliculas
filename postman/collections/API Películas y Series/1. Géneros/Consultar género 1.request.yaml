@@ -1,0 +1,4 @@
+$kind: http-request
+url: "{{baseUrl}}/api/generos/1"
+method: GET
+order: 5000

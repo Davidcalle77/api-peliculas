@@ -1,0 +1,14 @@
+$kind: http-request
+url: "{{baseUrl}}/api/productoras"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "nombre": "Warner Bros",
+      "slogan": "Si lo puedes imaginar, lo puedes ver",
+      "descripcion": "Estudio de cine y televisión"
+    }
+order: 1000

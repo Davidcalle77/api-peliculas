@@ -1,0 +1,13 @@
+$kind: http-request
+url: "{{baseUrl}}/api/media/1"
+method: PUT
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "titulo": "Interestelar (Interstellar)",
+      "anioEstreno": 2014
+    }
+order: 4000

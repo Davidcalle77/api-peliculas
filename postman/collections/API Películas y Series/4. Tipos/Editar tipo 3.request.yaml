@@ -1,0 +1,12 @@
+$kind: http-request
+url: "{{baseUrl}}/api/tipos/3"
+method: PUT
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "descripcion": "Documentales y reportajes"
+    }
+order: 3000

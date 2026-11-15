@@ -1,0 +1,21 @@
+$kind: http-request
+url: "{{baseUrl}}/api/media"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "serial": "PEL-001",
+      "titulo": "Interestelar",
+      "sinopsis": "Un grupo de astronautas viaja a través de un agujero de gusano en busca de un nuevo hogar para la humanidad.",
+      "url": "https://www.ejemplo.com/peliculas/otra2",
+      "imagenPortada": "https://www.ejemplo.com/img/interestelar.jpg",
+      "anioEstreno": 2014,
+      "generoId": 3,
+      "directorId": 1,
+      "productoraId": 1,
+      "tipoId": 1
+    }
+order: 2000

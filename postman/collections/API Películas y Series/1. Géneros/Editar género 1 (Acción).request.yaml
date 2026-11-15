@@ -1,0 +1,12 @@
+$kind: http-request
+url: "{{baseUrl}}/api/generos/1"
+method: PUT
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "descripcion": "Películas con mucha acción"
+    }
+order: 4000

@@ -1,0 +1,4 @@
+$kind: http-request
+url: http://localhost:3000/api/tipos
+method: GET
+order: 5000

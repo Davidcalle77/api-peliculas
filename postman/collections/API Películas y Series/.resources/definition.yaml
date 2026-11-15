@@ -1,0 +1,4 @@
+$kind: collection
+description: "Ejecutar en orden. Con la base de datos recién creada los ids son: géneros 1-5 (iniciales), Comedia=6, Western=7; tipos 1=Película y 2=Serie; director 1; productora 1."
+variables:
+  baseUrl: http://localhost:3000

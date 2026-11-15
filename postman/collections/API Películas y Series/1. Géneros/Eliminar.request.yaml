@@ -1,0 +1,4 @@
+$kind: http-request
+url: http://localhost:3000/api/generos/1
+method: DELETE
+order: 6000

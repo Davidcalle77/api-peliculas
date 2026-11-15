@@ -1,0 +1,14 @@
+$kind: http-request
+url: "{{baseUrl}}/api/generos"
+method: POST
+headers:
+  Content-Type: application/json
+body:
+  type: json
+  content: |-
+    {
+      "nombre": "Western",
+      "estado": "Inactivo",
+      "descripcion": "Películas del viejo oeste"
+    }
+order: 3000
