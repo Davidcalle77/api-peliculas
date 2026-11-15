@@ -21,6 +21,7 @@ export default function Media() {
   const [productoras, setProductoras] = useState([]);
   const [tipos, setTipos] = useState([]);
   const [form, setForm] = useState(formInicial);
+  const [editandoId, setEditandoId] = useState(null);
   const [error, setError] = useState('');
   const [exito, setExito] = useState('');
 
@@ -59,31 +60,83 @@ export default function Media() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  const textoError = (err, porDefecto) =>
+    err.response?.data?.errores?.join(' | ') ||
+    err.response?.data?.mensaje ||
+    err.message ||
+    porDefecto;
+
+  const limpiarFormulario = () => {
+    setForm(formInicial);
+    setEditandoId(null);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     setExito('');
+    const datos = {
+      ...form,
+      anioEstreno: Number(form.anioEstreno),
+      generoId: Number(form.generoId),
+      directorId: Number(form.directorId),
+      productoraId: Number(form.productoraId),
+      tipoId: Number(form.tipoId),
+    };
     try {
-      await api.post('/media', {
-        ...form,
-        anioEstreno: Number(form.anioEstreno),
-        generoId: Number(form.generoId),
-        directorId: Number(form.directorId),
-        productoraId: Number(form.productoraId),
-        tipoId: Number(form.tipoId),
-      });
-      setExito('Media creada exitosamente');
-      setForm(formInicial);
+      if (editandoId) {
+        await api.put(`/media/${editandoId}`, datos);
+        setExito('Media actualizada exitosamente');
+      } else {
+        await api.post('/media', datos);
+        setExito('Media creada exitosamente');
+      }
+      limpiarFormulario();
       obtenerMedia();
+      cargarCatalogos();
     } catch (err) {
-      console.error('Error al crear media', err);
-      setError(
-        err.response?.data?.errores?.join(' | ') ||
-          err.response?.data?.mensaje ||
-          err.message
-      );
+      console.error('Error al guardar media', err);
+      setError(textoError(err, 'No se pudo guardar la media'));
     }
   };
+
+  const handleEditar = (m) => {
+    setEditandoId(m.id);
+    setForm({
+      serial: m.serial || '',
+      titulo: m.titulo || '',
+      sinopsis: m.sinopsis || '',
+      url: m.url || '',
+      imagenPortada: m.imagenPortada || '',
+      anioEstreno: m.anioEstreno ?? '',
+      generoId: m.generoId ?? '',
+      directorId: m.directorId ?? '',
+      productoraId: m.productoraId ?? '',
+      tipoId: m.tipoId ?? '',
+    });
+    setError('');
+    setExito('');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleEliminar = async (m) => {
+    if (!window.confirm(`¿Eliminar "${m.titulo}"?`)) return;
+    setError('');
+    setExito('');
+    try {
+      await api.delete(`/media/${m.id}`);
+      if (editandoId === m.id) limpiarFormulario();
+      setExito('Media eliminada exitosamente');
+      obtenerMedia();
+    } catch (err) {
+      console.error('Error al eliminar media', err);
+      setError(textoError(err, 'No se pudo eliminar la media'));
+    }
+  };
+
+  // Solo registros activos, más el que ya tiene seleccionada la media en edición
+  const opciones = (lista, idActual) =>
+    lista.filter((x) => x.estado === undefined || x.estado === 'Activo' || String(x.id) === String(idActual));
 
   return (
     <div>
@@ -107,21 +160,21 @@ export default function Media() {
 
         <select name="generoId" value={form.generoId} onChange={handleChange} required>
           <option value="">Género</option>
-          {generos.map((g) => (
+          {opciones(generos, form.generoId).map((g) => (
             <option key={g.id} value={g.id}>{g.nombre}</option>
           ))}
         </select>
 
         <select name="directorId" value={form.directorId} onChange={handleChange} required>
           <option value="">Director</option>
-          {directores.map((d) => (
+          {opciones(directores, form.directorId).map((d) => (
             <option key={d.id} value={d.id}>{d.nombres}</option>
           ))}
         </select>
 
         <select name="productoraId" value={form.productoraId} onChange={handleChange} required>
           <option value="">Productora</option>
-          {productoras.map((p) => (
+          {opciones(productoras, form.productoraId).map((p) => (
             <option key={p.id} value={p.id}>{p.nombre}</option>
           ))}
         </select>
@@ -142,7 +195,12 @@ export default function Media() {
           required
         />
 
-        <button type="submit" style={{ gridColumn: 'span 2' }}>Guardar Media</button>
+        <button type="submit" style={{ gridColumn: editandoId ? 'span 1' : 'span 2' }}>
+          {editandoId ? 'Actualizar Media' : 'Guardar Media'}
+        </button>
+        {editandoId && (
+          <button type="button" onClick={limpiarFormulario}>Cancelar edición</button>
+        )}
       </form>
 
       {error && <p style={{ color: 'red' }}>{error}</p>}
@@ -154,7 +212,9 @@ export default function Media() {
           <li key={m.id}>
             <strong>{m.titulo}</strong> ({m.anioEstreno}) - Serial: {m.serial}
             {m.genero && ` - ${m.genero.nombre}`}
-            {m.tipo && ` - ${m.tipo.nombre}`}
+            {m.tipo && ` - ${m.tipo.nombre}`}{' '}
+            <button onClick={() => handleEditar(m)}>Editar</button>{' '}
+            <button onClick={() => handleEliminar(m)}>Eliminar</button>
           </li>
         ))}
       </ul>
