@@ -1,10 +1,12 @@
 // Punto de entrada de la API REST de peliculas y series
 require('dotenv').config();
 const express = require('express');
+const cors = require('cors');
 const { sequelize } = require('./models');
 const sembrarDatos = require('./config/seed');
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 
 // Ruta de prueba
