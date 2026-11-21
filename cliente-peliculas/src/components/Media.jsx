@@ -240,7 +240,7 @@ export default function Media() {
                 src={m.imagenPortada || SIN_PORTADA}
                 alt={m.titulo}
                 className="card-img-top"
-                style={{ height: '280px', objectFit: 'cover' }}
+                style={{ aspectRatio: '2 / 3', objectFit: 'cover', objectPosition: 'top' }}
                 onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = SIN_PORTADA; }}
               />
               <div className="card-body">
