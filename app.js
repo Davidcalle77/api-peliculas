@@ -6,7 +6,11 @@ const { sequelize } = require('./models');
 const sembrarDatos = require('./config/seed');
 
 const app = express();
-app.use(cors());
+
+// CORS: si FRONTEND_URL está definida (en la nube) solo acepta ese origen;
+// si no (en local) acepta cualquiera
+const origenPermitido = process.env.FRONTEND_URL;
+app.use(cors(origenPermitido ? { origin: origenPermitido } : undefined));
 app.use(express.json());
 
 // Ruta de prueba
@@ -43,7 +47,7 @@ const PORT = process.env.PORT || 3000;
 async function iniciar() {
   try {
     await sequelize.authenticate();
-    console.log('Conexión a SQL Server correcta');
+    console.log('Conexión a la base de datos correcta');
 
     await sequelize.sync(); // crea las tablas si todavia no existen
     await sembrarDatos(); // agrega generos y tipos iniciales si estan vacios

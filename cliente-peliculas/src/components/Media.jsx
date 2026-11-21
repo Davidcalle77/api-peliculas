@@ -14,6 +14,13 @@ const formInicial = {
   tipoId: '',
 };
 
+// Imagen de respaldo si la portada no carga
+const SIN_PORTADA =
+  'data:image/svg+xml;utf8,' +
+  encodeURIComponent(
+    '<svg xmlns="http://www.w3.org/2000/svg" width="400" height="300"><rect width="100%" height="100%" fill="#dee2e6"/><text x="50%" y="50%" fill="#6c757d" font-size="22" text-anchor="middle" dominant-baseline="middle">Sin portada</text></svg>'
+  );
+
 export default function Media() {
   const [mediaList, setMediaList] = useState([]);
   const [generos, setGeneros] = useState([]);
@@ -136,88 +143,131 @@ export default function Media() {
 
   // Solo registros activos, más el que ya tiene seleccionada la media en edición
   const opciones = (lista, idActual) =>
-    lista.filter((x) => x.estado === undefined || x.estado === 'Activo' || String(x.id) === String(idActual));
+    lista.filter(
+      (x) => x.estado === undefined || x.estado === 'Activo' || String(x.id) === String(idActual)
+    );
 
   return (
     <div>
-      <h2>Módulo de Media (Películas y Series)</h2>
+      <h2 className="mb-4">Películas y Series</h2>
 
-      <form
-        onSubmit={handleSubmit}
-        style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
-          gap: '10px',
-          maxWidth: '600px',
-          marginBottom: '20px',
-        }}
-      >
-        <input type="text" name="serial" placeholder="Serial (Ej: PEL-001)" value={form.serial} onChange={handleChange} required />
-        <input type="text" name="titulo" placeholder="Título" value={form.titulo} onChange={handleChange} required />
-        <input type="number" name="anioEstreno" placeholder="Año Estreno" value={form.anioEstreno} onChange={handleChange} required />
-        <input type="text" name="url" placeholder="URL de la película" value={form.url} onChange={handleChange} required />
-        <input type="text" name="imagenPortada" placeholder="URL Imagen Portada" value={form.imagenPortada} onChange={handleChange} required />
+      {error && <div className="alert alert-danger">{error}</div>}
+      {exito && <div className="alert alert-success">{exito}</div>}
 
-        <select name="generoId" value={form.generoId} onChange={handleChange} required>
-          <option value="">Género</option>
-          {opciones(generos, form.generoId).map((g) => (
-            <option key={g.id} value={g.id}>{g.nombre}</option>
-          ))}
-        </select>
+      <div className="card shadow-sm mb-5">
+        <div className="card-header fw-bold">
+          {editandoId ? 'Editar registro' : 'Nuevo registro'}
+        </div>
+        <div className="card-body">
+          <form onSubmit={handleSubmit}>
+            <div className="row g-3">
+              <div className="col-12 col-md-4">
+                <input className="form-control" type="text" name="serial" placeholder="Serial (Ej: PEL-001)" value={form.serial} onChange={handleChange} required />
+              </div>
+              <div className="col-12 col-md-5">
+                <input className="form-control" type="text" name="titulo" placeholder="Título" value={form.titulo} onChange={handleChange} required />
+              </div>
+              <div className="col-12 col-md-3">
+                <input className="form-control" type="number" name="anioEstreno" placeholder="Año de estreno" value={form.anioEstreno} onChange={handleChange} required />
+              </div>
+              <div className="col-12 col-md-6">
+                <input className="form-control" type="text" name="url" placeholder="URL de la película" value={form.url} onChange={handleChange} required />
+              </div>
+              <div className="col-12 col-md-6">
+                <input className="form-control" type="text" name="imagenPortada" placeholder="URL de la imagen de portada" value={form.imagenPortada} onChange={handleChange} required />
+              </div>
 
-        <select name="directorId" value={form.directorId} onChange={handleChange} required>
-          <option value="">Director</option>
-          {opciones(directores, form.directorId).map((d) => (
-            <option key={d.id} value={d.id}>{d.nombres}</option>
-          ))}
-        </select>
+              <div className="col-12 col-sm-6 col-lg-3">
+                <select className="form-select" name="generoId" value={form.generoId} onChange={handleChange} required>
+                  <option value="">Género</option>
+                  {opciones(generos, form.generoId).map((g) => (
+                    <option key={g.id} value={g.id}>{g.nombre}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="col-12 col-sm-6 col-lg-3">
+                <select className="form-select" name="directorId" value={form.directorId} onChange={handleChange} required>
+                  <option value="">Director</option>
+                  {opciones(directores, form.directorId).map((d) => (
+                    <option key={d.id} value={d.id}>{d.nombres}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="col-12 col-sm-6 col-lg-3">
+                <select className="form-select" name="productoraId" value={form.productoraId} onChange={handleChange} required>
+                  <option value="">Productora</option>
+                  {opciones(productoras, form.productoraId).map((p) => (
+                    <option key={p.id} value={p.id}>{p.nombre}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="col-12 col-sm-6 col-lg-3">
+                <select className="form-select" name="tipoId" value={form.tipoId} onChange={handleChange} required>
+                  <option value="">Tipo</option>
+                  {tipos.map((t) => (
+                    <option key={t.id} value={t.id}>{t.nombre}</option>
+                  ))}
+                </select>
+              </div>
 
-        <select name="productoraId" value={form.productoraId} onChange={handleChange} required>
-          <option value="">Productora</option>
-          {opciones(productoras, form.productoraId).map((p) => (
-            <option key={p.id} value={p.id}>{p.nombre}</option>
-          ))}
-        </select>
+              <div className="col-12">
+                <textarea className="form-control" rows="3" name="sinopsis" placeholder="Sinopsis" value={form.sinopsis} onChange={handleChange} required />
+              </div>
 
-        <select name="tipoId" value={form.tipoId} onChange={handleChange} required>
-          <option value="">Tipo</option>
-          {tipos.map((t) => (
-            <option key={t.id} value={t.id}>{t.nombre}</option>
-          ))}
-        </select>
+              <div className="col-12 d-flex gap-2">
+                <button type="submit" className="btn btn-primary">
+                  {editandoId ? 'Actualizar Media' : 'Guardar Media'}
+                </button>
+                {editandoId && (
+                  <button type="button" className="btn btn-outline-secondary" onClick={limpiarFormulario}>
+                    Cancelar edición
+                  </button>
+                )}
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
 
-        <textarea
-          name="sinopsis"
-          placeholder="Sinopsis"
-          value={form.sinopsis}
-          onChange={handleChange}
-          style={{ gridColumn: 'span 2' }}
-          required
-        />
+      <h3 className="mb-3">Catálogo</h3>
+      {mediaList.length === 0 && <p className="text-muted">Aún no hay registros.</p>}
 
-        <button type="submit" style={{ gridColumn: editandoId ? 'span 1' : 'span 2' }}>
-          {editandoId ? 'Actualizar Media' : 'Guardar Media'}
-        </button>
-        {editandoId && (
-          <button type="button" onClick={limpiarFormulario}>Cancelar edición</button>
-        )}
-      </form>
-
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {exito && <p style={{ color: 'green' }}>{exito}</p>}
-
-      <h3>Lista de Registros</h3>
-      <ul>
+      <div className="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
         {mediaList.map((m) => (
-          <li key={m.id}>
-            <strong>{m.titulo}</strong> ({m.anioEstreno}) - Serial: {m.serial}
-            {m.genero && ` - ${m.genero.nombre}`}
-            {m.tipo && ` - ${m.tipo.nombre}`}{' '}
-            <button onClick={() => handleEditar(m)}>Editar</button>{' '}
-            <button onClick={() => handleEliminar(m)}>Eliminar</button>
-          </li>
+          <div className="col" key={m.id}>
+            <div className="card h-100 shadow-sm">
+              <img
+                src={m.imagenPortada || SIN_PORTADA}
+                alt={m.titulo}
+                className="card-img-top"
+                style={{ height: '280px', objectFit: 'cover' }}
+                onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = SIN_PORTADA; }}
+              />
+              <div className="card-body">
+                <h5 className="card-title">{m.titulo}</h5>
+                <p className="mb-2">
+                  {m.tipo && <span className="badge text-bg-primary me-1">{m.tipo.nombre}</span>}
+                  {m.genero && <span className="badge text-bg-secondary me-1">{m.genero.nombre}</span>}
+                  <span className="badge text-bg-light border">{m.anioEstreno}</span>
+                </p>
+                <p className="card-text small text-muted">{m.sinopsis}</p>
+                <p className="small mb-0">
+                  <strong>Serial:</strong> {m.serial}
+                  {m.director && <><br /><strong>Director:</strong> {m.director.nombres}</>}
+                  {m.productora && <><br /><strong>Productora:</strong> {m.productora.nombre}</>}
+                </p>
+              </div>
+              <div className="card-footer bg-transparent d-flex gap-2">
+                <button className="btn btn-sm btn-outline-primary" onClick={() => handleEditar(m)}>Editar</button>
+                <button className="btn btn-sm btn-outline-danger" onClick={() => handleEliminar(m)}>Eliminar</button>
+                {m.url && (
+                  <a className="btn btn-sm btn-outline-secondary ms-auto" href={m.url} target="_blank" rel="noreferrer">Ver</a>
+                )}
+              </div>
+            </div>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }
