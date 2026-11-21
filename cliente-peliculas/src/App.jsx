@@ -58,14 +58,25 @@ function App() {
           <Route
             path="/"
             element={
-              <div className="text-center py-5">
-                <h2>Bienvenido</h2>
-                <p className="text-muted">Selecciona un módulo en el menú superior para comenzar.</p>
+              <div className="card shadow-sm text-center my-5">
+                <div className="card-body py-5">
+                  <h2 className="mb-3">Sistema de Gestión de Películas y Series</h2>
+                  <p className="text-muted mb-4">
+                    Aplicación web con API REST (Node.js, Express, PostgreSQL) y cliente en React,
+                    desplegada en la nube.
+                  </p>
+                  <p className="mb-0">Seleccione un módulo en el menú superior para comenzar.</p>
+                </div>
               </div>
             }
           />
         </Routes>
       </div>
+
+      <footer className="pie">
+        <strong>Proyecto Integrado 2 – Desarrollo de Aplicaciones Web</strong><br />
+        Estudiantes Juan David Calle Correa - Edinson Mena Arroyo · Universidad Digital de Antioquia · 2026 - 2
+      </footer>
     </Router>
   );
 }
