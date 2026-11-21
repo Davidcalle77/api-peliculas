@@ -28,7 +28,7 @@ const Media = sequelize.define(
       validate: { notEmpty: { msg: 'La URL es obligatoria' } },
     },
     imagenPortada: {
-      type: DataTypes.STRING(400),
+      type: DataTypes.TEXT,
       allowNull: true,
     },
     anioEstreno: {
