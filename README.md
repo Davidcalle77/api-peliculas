@@ -1,6 +1,6 @@
 # API REST – Películas y Series
 
-Proyecto de **Ingeniería Web II**. API REST hecha con **Node.js + Express + Sequelize** y base de datos **SQL Server**, para administrar las películas y series de la plataforma. Incluye un **cliente web** (React + Vite) que consume la API.
+Proyecto de **Ingeniería Web II**. API REST hecha con **Node.js + Express + Sequelize** y SQL Server (local) y PostgreSQL (nube), para administrar las películas y series de la plataforma. Incluye un **cliente web** (React + Vite) que consume la API.
 
 La API tiene cinco módulos: **Género, Director, Productora, Tipo y Media** (películas y series). Cada módulo permite crear, editar, consultar y eliminar.
 
@@ -8,6 +8,26 @@ El repositorio tiene dos partes:
 
 - **API**: en la raíz del repositorio.
 - **Cliente web**: en la carpeta `cliente-peliculas/`.
+- ## Despliegue en la nube
+
+La aplicación está publicada en Render:
+
+| Parte | Plataforma | URL |
+|---|---|---|
+| Cliente web | Render (Static Site) | https://cliente-peliculas.onrender.com |
+| API REST | Render (Web Service) | https://api-peliculas-vhfk.onrender.com |
+| Base de datos | Render (PostgreSQL) | (interna) |
+
+Variables de entorno en la nube:
+
+- **API:** `DATABASE_URL` (conexión a PostgreSQL) y `FRONTEND_URL` (origen permitido por CORS).
+- **Cliente:** `VITE_API_URL` (dirección de la API, termina en `/api`).
+
+En local la API usa SQL Server con las variables `DB_*` del `.env`. Si existe `DATABASE_URL`, usa PostgreSQL.
+
+## Autores
+
+Juan David Calle Correa y Edinson Mena Arroyo, Universidad Digital de Antioquia, 2026-2.
 
 ## Requisitos
 
